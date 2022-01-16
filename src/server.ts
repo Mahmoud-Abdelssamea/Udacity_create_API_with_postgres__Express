@@ -1,15 +1,23 @@
-import express, { Request, Response } from 'express'
-import bodyParser from 'body-parser'
+import express from "express";
+import * as dotenv from "dotenv";
+dotenv.config();
+import userRoute from "./Routes/users";
+import productRoute from "./Routes/product";
+import orderRoute from "./Routes/order";
 
-const app: express.Application = express()
-const address: string = "0.0.0.0:3000"
+const port = process.env.PORT || 4000;
+const app: express.Application = express();
+const address: string = "http://localhost:" + port;
 
-app.use(bodyParser.json())
+//  define the json data on server
+app.use(express.json());
 
-app.get('/', function (req: Request, res: Response) {
-    res.send('Hello World!')
-})
+app.use("/api", userRoute);
+app.use("/api", productRoute);
+app.use("/api", orderRoute);
 
-app.listen(3000, function () {
-    console.log(`starting app on: ${address}`)
-})
+app.listen(port, () => {
+  console.log(`starting app on: ${address}`);
+});
+
+export default app;
