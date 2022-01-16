@@ -1,4 +1,4 @@
-import { ProductInput, ProductModel } from "../Models/product";
+import { ProductModel } from "../Models/product";
 import { Request, Response } from "express";
 
 const product = new ProductModel();

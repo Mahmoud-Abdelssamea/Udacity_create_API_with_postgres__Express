@@ -1,44 +1,59 @@
+import { response } from "express";
 import supertest from "supertest";
 import app from "../../../src/server";
-import { token } from "../Models/01users_spec";
+import { newToken } from "./01users_spec";
 
-// let token3;
-// const request = supertest(app);
-// describe("Test endpoint ", () => {
-//   it("POST signup endpoint", async (done) => {
-//     await request
-//       .post("/api/users/1/product/create")
-//       .send({ firstName: "dam", lastName: "max", password: "789" })
-//       .set("Authorization", "Bearer " + token)
-//       .expect(200);
-//     done();
-//   });
+const request = supertest(app);
+describe("Test product endpoints ", () => {
+  it("POST Create new Product endpoint", async done => {
+    const res = await request
+      .post("/api/users/4/product/create")
+      .send({
+        name: "Macbook",
+        price: 1000,
+        category: "labtops",
+      })
+      .set("Authorization", "Bearer " + newToken);
+    expect(res.body).toEqual({
+      id: 3,
+      name: "Macbook",
+      price: 1000,
+      category: "labtops",
+    });
 
-//   it("POST login endpoint", async (done) => {
-//     await request
-//       .post("/api/users/login")
-//       .send({ firstName: "dam", lastName: "max", password: "789" })
-//       .expect(200);
-//     done();
-//   });
+    done();
+  });
 
-//   it("GET index endpoint", async (done) => {
-//     await request
-//       .get("/api/users/index/1")
+  it("GET index Products endpoint", async done => {
+    const res = await request.get("/api/products/index/");
 
-//       .set("Authorization", "Bearer " + token)
-//       .expect([
-//         { id: 1, firstname: "john", lastname: "smith" },
-//         { id: 3, firstname: "dam", lastname: "max" },
-//       ]);
-//     done();
-//   });
+    expect(res.body).toEqual([
+      { id: 1, name: "iphone", price: 1500, category: "mobiles" },
+      { id: 3, name: "Macbook", price: 1000, category: "labtops" },
+    ]);
 
-//   it("DELETE user endpoint", async (done) => {
-//     await request
-//       .delete("/api/users/delete/2")
-//       .set("Authorization", "Bearer " + token)
-//       .expect("not allowed to delete anther user");
-//     done();
-//   });
-// });
+    done();
+  });
+
+  it("GET SHOW A Product endpoint", async done => {
+    const res = await request.get("/api/products/show/1");
+
+    expect(res.body).toEqual({
+      id: 1,
+      name: "iphone",
+      price: 1500,
+      category: "mobiles",
+    });
+
+    done();
+  });
+
+  it("POST DELETE a Product endpoint", async done => {
+    const res = await request
+      .delete("/api/users/4/product/delete/3")
+      .set("Authorization", "Bearer " + newToken);
+    expect(res.text).toEqual("Product deleted successfully");
+
+    done();
+  });
+});

@@ -32,9 +32,9 @@ describe("Order Model", () => {
     });
   });
 
-  //   =============================create anther product==================
+  //   =============================create anther Order==================
 
-  it("create product in database ", async () => {
+  it("create Order in database ", async () => {
     const results = await orders.create(
       { user_id: "1", status: "completed" },
       token
@@ -46,7 +46,7 @@ describe("Order Model", () => {
     });
   });
 
-  // =============================add  product to order====================================
+  // =============================add  Product to order====================================
 
   it("add product to Order 1 ", async () => {
     const results = await orders_products.addproduct({
@@ -64,8 +64,7 @@ describe("Order Model", () => {
     });
   });
 
-  it("index all products in database ", async () => {
-    const orders_products = new Order_ProductModel();
+  it("index all products in one order in database ", async () => {
     const result = await dashbourd.productsInOrders({
       order_id: "1",
       user_id: "1",
@@ -82,7 +81,6 @@ describe("Order Model", () => {
   });
 
   it("delete order in database ", async () => {
-    const orders_products = new Order_ProductModel();
     const result = await orders.delete("1", "1", token);
     expect(result).toEqual("Order deleted successfully");
   });

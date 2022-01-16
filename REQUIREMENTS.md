@@ -8,24 +8,31 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
+| FUNCTION | ROUTE                                         | METHOD   | TOKEN REQUIRED |
+| -------- | --------------------------------------------- | -------- | -------------- |
+| INDEX    | api/products/index/                           | [GET]    | NO             |
+| SHOW     | api/products/show/:product_id                 | [GET]    | NO             |
+| CREATE   | api/users/:user_id/product/create             | [POST]   | YES            |
+| DELETE   | api/users/:user_id/product/delete/:product_id | [DELETE] | YES            |
 
 #### Users
 
-- create route "api/users/signup" [POST]
-- Show route "api/users/login" [GET]
-- index route "api/users/index" [GET]
-- update route "api/users/update/:id" [PUT] [TOKEN REQUIRED]
-- delete route "api/users/delete/:id" [PUT] [TOKEN REQUIRED]
+| FUNCTION | ROUTE                | METHOD   | TOKEN REQUIRED | NOTE        |
+| -------- | -------------------- | -------- | -------------- | ----------- |
+| CREATE   | api/users/signup     | [POST]   | NO             |             |
+| SHOW     | api/users/login      | [POST]   | NO             |             |
+| INDEX    | api/users/index/:id  | [GET]    | NO             | id for user |
+| UPDATE   | api/users/update/:id | [PUT]    | YES            | id for user |
+| DELETE   | api/users/delete/:id | [DELETE] | YES            | id for user |
 
 #### Orders
 
-- Current Order by user [args: user id](token required)
-- [OPTIONAL] Completed Orders by user [args: user id](token required)
+| FUNCTION             | ROUTE                                   | METHOD   | TOKEN REQUIRED | NOTE |
+| -------------------- | --------------------------------------- | -------- | -------------- | ---- |
+| CREATE               | api/users/:user_id/orders/create        | [POST]   | YES            |      |
+| ADD_PRODUCT TO ORDER | api/users/:user_id/orders/add/:order_id | [POST]   | YES            |      |
+| SHOW CURRENT ORDER   | api/users/:user_id/orders/add/:order_id | [GET]    | YES            |      |
+| DELETE               | api/users/:user_id/orders/add/:order_id | [DELETE] | YES            |
 
 ## Data Shapes
 
@@ -54,10 +61,10 @@ These are the notes from a meeting with the frontend developer that describe wha
 - id SERIAL PRIMARY KEY
 - user_id INT foreign key for users table
 - status VARCHAR
-- created_at (date and time)
 
 ##### order_product table
 
+- id SERIAL PRIMARY KEY
 - product_id INT foreign key for product table
 - order_id INT foreign key for orders table
 - quantity INT
